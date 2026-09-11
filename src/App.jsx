@@ -48,14 +48,14 @@ export default function App() {
       isDark ? 'dark bg-[#08090d] text-slate-100' : 'bg-[#fcfdfd] text-slate-900'
     }`}>
       
-      {/* Background Ambient Pattern */}
+      {/* Subtle Ambient Background Pattern */}
       <div className="fixed inset-0 bg-ambient-pattern pointer-events-none opacity-80 z-0" />
 
-      {/* Floating Modern Navbar */}
+      {/* Floating Modern Navbar with Active Item Indicator */}
       <Navbar isDark={isDark} toggleTheme={toggleTheme} />
 
-      {/* Main Full-Page Content */}
-      <main className="relative z-10 space-y-12 sm:space-y-16">
+      {/* Main Full-Width Content Container with Snug Spacing */}
+      <main className="relative z-10 space-y-4 sm:space-y-6">
         <Hero />
         <ImpactMetrics />
         <ArchitectureDeepDive />
@@ -65,7 +65,7 @@ export default function App() {
         <ContactSection />
       </main>
 
-      {/* Full-Width Footer */}
+      {/* Minimal Footer */}
       <Footer />
 
     </div>
