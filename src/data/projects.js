@@ -1,9 +1,55 @@
 export const projectsData = [
   {
+    id: "document-chat-ai",
+    title: "Document RAG Chatbot",
+    subtitle: "Context-Aware Document Intelligence & Conversational RAG",
+    description: "An interactive Retrieval-Augmented Generation (RAG) platform powered by Google Gemini and vector embeddings. Users upload any document (PDF, TXT, DOCX), inject their API key, and converse with a strict-context AI that answers queries solely based on the uploaded file.",
+    fullDescription: "Document RAG Chatbot is an end-to-end intelligent conversational assistant engineered to solve enterprise document interrogation. By leveraging vector embeddings, chunked semantic retrieval, and Google Gemini LLMs (such as gemini-2.5-flash), the application extracts verified facts with zero external hallucination. It features automated intent classification to filter off-topic questions, dynamic probing to resolve ambiguous user queries, and granular temperature/system prompt customization.",
+    image: "/projects/document-chat-ai.png",
+    liveUrl: "https://documentchatai.streamlit.app/",
+    githubUrl: "",
+    featured: true,
+    tags: [
+      "Generative AI",
+      "RAG Pipeline",
+      "Google Gemini API",
+      "Vector Embeddings",
+      "Streamlit",
+      "Python",
+      "Document Parsing",
+      "Intent Classification"
+    ],
+    metrics: {
+      "Model": "Gemini 2.5 Flash",
+      "Retrieval": "Dense Vector RAG",
+      "Guardrails": "Intent Classification & Probing"
+    },
+    highlights: [
+      "Strict Grounded RAG: Answers user inquiries strictly based on uploaded document content with citation-level accuracy.",
+      "Intent Classification: Automatically detects query intent to filter off-topic queries and prompt injections.",
+      "Probing & Disambiguation: Intelligently prompts the user for clarification when questions are ambiguous or underspecified.",
+      "Customizable LLM Controls: Flexible sidebar configuration for custom system prompts, temperature sliders, and Gemini model selection."
+    ],
+    techBreakdown: {
+      ai_rag: [
+        { name: "Retrieval-Augmented Generation (RAG)", desc: "Semantic chunking, vector indexing, and context injection into LLM prompts." },
+        { name: "Google Gemini 2.5 Flash API", desc: "High-speed multi-modal reasoning and dynamic conversational response generation." },
+        { name: "Vector Embedding Engine", desc: "High-dimensional embeddings for dense cosine similarity document retrieval." },
+        { name: "Intent Classifier & Guardrails", desc: "Filters out-of-scope queries and guards against prompt leakage." }
+      ],
+      application: [
+        { name: "Streamlit Cloud", desc: "Reactive Python web application with real-time state management and streaming UI." },
+        { name: "Document Extractors", desc: "Fast text and layout parsing for multi-page PDF, DOCX, and text files." },
+        { name: "Session & Key Management", desc: "Secure client-side API key handling without persisting sensitive tokens." }
+      ]
+    }
+  },
+  {
     id: "crawlbit",
     title: "Crawlbit Studio & Scraping Engine",
     subtitle: "High-Speed Web Crawler, Stealth Scraper & Multi-Format Document Parser",
     description: "Production-grade web scraping and domain crawling engine engineered for modern SPAs and enterprise document ingestion. Features native HTTP/2 stealth requests, Puppeteer Chromium automation for Cloudflare bypass, multi-format document conversion (HTML, PDF, Word, Excel to Markdown), and a zero-build client studio dashboard.",
+    fullDescription: "Crawlbit is a full-featured data extraction suite built to scrape modern JavaScript web applications, traverse complex website hierarchies with an in-house BFS crawler, and convert multi-format enterprise files into LLM-ready clean Markdown and structured JSON. Engineered with an anti-detection stealth layer (spoofing WebGL, plugins, webdriver, hardware concurrency), it defeats automated bot mitigation systems like Cloudflare Turnstile while delivering sub-second scraping throughput.",
     image: "/projects/crawlbit.png",
     liveUrl: "https://crawlbit.shivamjadon47.workers.dev/",
     githubUrl: "",
@@ -28,7 +74,7 @@ export const projectsData = [
     highlights: [
       "Native HTTP/2 Requester & Headless Chromium: Executes JavaScript SPAs, dynamic DOM hydration, and automated Cloudflare Turnstile bypass heuristics.",
       "Stealth & Anti-Detection Layer: Custom native JS injections spoofing navigator.webdriver, hardware concurrency, plugins, WebGL vendor, and permissions query.",
-      "Multi-Format Ingestion Engine: Converts live web pages, PDFs (poppler-utils), Word documents (Mammoth.js), and Spreadsheets (SheetJS) into clean, LLM-ready Markdown tables and structured JSON.",
+      "Multi-Format Ingestion Engine: Converts live web pages, PDFs (poppler-utils), Word documents (Mammoth.js), and Spreadsheets (SheetJS) into clean Markdown tables and JSON.",
       "Studio Frontend & Client Inspector: Zero-build static architecture with Omni command bar, interactive collapsible JSON tree inspector, real-time health prober, and client-side Blob file exporters."
     ],
     techBreakdown: {
@@ -53,22 +99,3 @@ export const projectsData = [
     }
   }
 ];
-
-export const sampleProjectTemplate = {
-  id: "sample-project",
-  title: "Your Project Title Here",
-  subtitle: "Fullstack Architecture / AI Solution",
-  description: "Add a concise description of what you built, the technical challenge you solved, and the measurable impact.",
-  tags: ["React", "Node.js", "MongoDB", "RAG / LLM", "AWS"],
-  featured: true,
-  liveUrl: "#",
-  githubUrl: "#",
-  metrics: {
-    latency: "< 500ms",
-    scale: "Enterprise"
-  },
-  highlights: [
-    "Key architectural achievement or technical metric #1",
-    "Key architectural achievement or technical metric #2"
-  ]
-};
