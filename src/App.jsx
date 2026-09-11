@@ -1,38 +1,73 @@
-import React from 'react';
-import InteractiveBackdrop from './components/InteractiveBackdrop';
-import Header from './components/Header';
-import SpecialtySpotlight from './components/SpecialtySpotlight';
-import ExperienceList from './components/ExperienceList';
-import SkillsList from './components/SkillsList';
-import ProjectsList from './components/ProjectsList';
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import ImpactMetrics from './components/ImpactMetrics';
+import ArchitectureDeepDive from './components/ArchitectureDeepDive';
+import Experience from './components/Experience';
+import SkillsMatrix from './components/SkillsMatrix';
+import ProjectsSection from './components/ProjectsSection';
 import ContactSection from './components/ContactSection';
+import Footer from './components/Footer';
 
 export default function App() {
-  return (
-    <div className="min-h-screen bg-[#050609] text-zinc-200 selection:bg-emerald-500/20 selection:text-emerald-300 relative">
-      {/* Subtle Interactive Particle Canvas */}
-      <InteractiveBackdrop />
+  // Default to light theme as requested
+  const [isDark, setIsDark] = useState(false);
 
-      {/* Main Container */}
-      <main className="relative z-10 max-w-3xl mx-auto px-6 sm:px-8 py-16 sm:py-24 space-y-16">
-        <Header />
-        <SpecialtySpotlight />
-        <ExperienceList />
-        <SkillsList />
-        <ProjectsList />
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('portfolio_theme');
+    if (savedTheme === 'dark') {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      // Default light mode
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark((prev) => {
+      const next = !prev;
+      if (next) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        localStorage.setItem('portfolio_theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('portfolio_theme', 'light');
+      }
+      return next;
+    });
+  };
+
+  return (
+    <div className={`min-h-screen relative font-sans transition-colors duration-300 ${
+      isDark ? 'dark bg-[#08090d] text-slate-100' : 'bg-[#fcfdfd] text-slate-900'
+    }`}>
+      
+      {/* Background Ambient Pattern */}
+      <div className="fixed inset-0 bg-ambient-pattern pointer-events-none opacity-80 z-0" />
+
+      {/* Floating Modern Navbar */}
+      <Navbar isDark={isDark} toggleTheme={toggleTheme} />
+
+      {/* Main Full-Page Content */}
+      <main className="relative z-10 space-y-12 sm:space-y-16">
+        <Hero />
+        <ImpactMetrics />
+        <ArchitectureDeepDive />
+        <Experience />
+        <SkillsMatrix />
+        <ProjectsSection />
         <ContactSection />
-        
-        {/* Discreet Modern Footer */}
-        <footer className="pt-12 pb-6 border-t border-white/[0.06] text-xs font-mono text-zinc-500 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span>Shivam Jadon · Gurugram, India</span>
-          </div>
-          <div className="text-zinc-600">
-            © {new Date().getFullYear()} · Built with React &amp; Tailwind CSS
-          </div>
-        </footer>
       </main>
+
+      {/* Full-Width Footer */}
+      <Footer />
+
     </div>
   );
 }

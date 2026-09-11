@@ -7,19 +7,18 @@ import {
   MapPin, 
   Clock, 
   FileText, 
-  Terminal, 
   Cpu, 
   Database, 
   Zap, 
   Server,
   Layers,
-  ShieldCheck,
-  ChevronDown
+  CheckCircle2,
+  Mail,
+  Linkedin
 } from 'lucide-react';
-import { profileData } from '../data/profile';
-import { sound } from '../utils/sound';
+import { profile } from '../data/profile';
 
-export default function Hero({ onExploreClick }) {
+export default function Hero() {
   const [copied, setCopied] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
   const [activeTab, setActiveTab] = useState('rag');
@@ -33,24 +32,22 @@ export default function Hero({ onExploreClick }) {
         second: '2-digit',
         hour12: true
       };
-      const timeString = new Intl.DateTimeFormat('en-US', options).format(new Date());
-      setCurrentTime(timeString);
+      const timeStr = new Intl.DateTimeFormat('en-US', options).format(new Date());
+      setCurrentTime(timeStr);
     };
-
     updateTime();
-    const timer = setInterval(updateTime, 1000);
-    return () => clearInterval(timer);
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
   }, []);
 
-  const copyEmail = () => {
-    sound.playSuccess();
-    navigator.clipboard.writeText(profileData.email);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(profile.email);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+    setTimeout(() => setCopied(false), 2200);
   };
 
   const codeSnippets = {
-    rag: `// Production RAG Pipeline Node (OpenSearch + Embeddings)
+    rag: `// Production RAG Pipeline (OpenSearch + Dense Embeddings)
 async function retrieveAugmentedContext(query, topK = 5) {
   const queryVector = await embeddings.embedQuery(query);
   const searchResults = await openSearchClient.search({
@@ -88,216 +85,181 @@ router.get('/v1/analytics/stream', async (req, res) => {
   };
 
   return (
-    <section className="relative min-h-[92vh] flex flex-col justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section className="pt-32 pb-16 sm:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      {/* Background radial glow */}
-      <div className="glow-mesh" />
-
-      {/* Top Telemetry & Status Bar */}
+      {/* Top Telemetry Pills */}
       <div className="flex flex-wrap items-center gap-3 mb-8">
         
         {/* Availability Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-medium">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span>{profileData.status}</span>
+          <span>{profile.status}</span>
         </div>
 
-        {/* Live IST Time & Location */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-slate-400 text-xs font-mono">
-          <MapPin className="w-3.5 h-3.5 text-slate-400" />
+        {/* Live IST Time */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-slate-600 dark:text-slate-400 text-xs font-mono">
+          <MapPin className="w-3.5 h-3.5 text-slate-500" />
           <span>Gurugram, India</span>
-          <span className="text-white/20">|</span>
-          <Clock className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-slate-200">{currentTime || '09:30 AM'} IST</span>
+          <span className="text-slate-300 dark:text-zinc-700">|</span>
+          <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+          <span className="text-slate-800 dark:text-slate-200">{currentTime || '09:30 AM'} IST</span>
         </div>
 
-        {/* Experience Pill */}
-        <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-          <span>5+ Years Production Experience</span>
+        <div className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-700 dark:text-cyan-300 text-xs font-mono">
+          <Sparkles className="w-3.5 h-3.5 text-cyan-500" />
+          <span>5+ Years Enterprise Experience</span>
         </div>
       </div>
 
-      {/* Main Grid: Left Value Proposition & Right Interactive Code Terminal */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      {/* Main 12-Column Responsive Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
         
-        {/* Left Column: Heading & Pitch */}
+        {/* Left Column: Heading & Introduction */}
         <div className="lg:col-span-7 space-y-6">
           <div className="space-y-3">
-            <div className="font-mono text-xs text-emerald-400 tracking-wider uppercase font-semibold flex items-center gap-2">
-              <span className="w-6 h-[1px] bg-emerald-500/50"></span>
-              Fullstack & Generative AI Systems
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white font-display leading-[1.1]">
-              Engineering scalable <br />
-              <span className="bg-gradient-to-r from-emerald-400 via-cyan-300 to-emerald-200 bg-clip-text text-transparent">
-                MERN & Generative AI
-              </span> <br />
+            <span className="font-mono text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 block">
+              Shivam Jadon · Fullstack &amp; Generative AI Engineer
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-display text-slate-900 dark:text-white leading-[1.08]">
+              Architecting scalable <br className="hidden sm:block" />
+              <span className="emerald-gradient-text">
+                MERN &amp; Generative AI
+              </span> <br className="hidden sm:block" />
               ecosystems.
             </h1>
           </div>
 
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed font-normal max-w-2xl">
-            Hi, I’m <span className="text-white font-semibold">Shivam Jadon</span>. I architect high-concurrency Node.js & React platforms, production RAG pipelines with OpenSearch vector search, and mission-critical enterprise voice/chatbots.
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal max-w-2xl">
+            I build resilient fullstack platforms and production AI systems. Currently at <strong className="text-slate-900 dark:text-white font-semibold">BlackBeltHelp</strong>, leading the architecture of production RAG pipelines, OpenSearch vector stores, high-concurrency Node.js microservices, and multi-turn voice/chatbots.
           </p>
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            
-            {/* View Architecture CTA */}
             <a
-              href="#architecture"
-              onClick={() => sound.playClick()}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono font-semibold text-sm transition-all duration-200 shadow-[0_0_24px_rgba(16,185,129,0.3)] hover:shadow-[0_0_32px_rgba(16,185,129,0.45)] hover:-translate-y-0.5"
+              href="#contact"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 dark:bg-emerald-500 hover:bg-emerald-700 dark:hover:bg-emerald-400 text-white dark:text-slate-950 font-mono font-semibold text-xs transition-all shadow-md hover:-translate-y-0.5"
             >
-              <Cpu className="w-4 h-4" />
-              Explore AI Architecture
+              <Mail className="w-4 h-4" />
+              <span>Get in Touch</span>
               <ArrowUpRight className="w-4 h-4" />
             </a>
 
-            {/* Copy Email Button */}
             <button
-              onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 font-mono text-sm border border-white/[0.1] hover:border-white/[0.2] transition-all hover:-translate-y-0.5"
+              onClick={handleCopy}
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] text-xs font-mono transition-all hover:-translate-y-0.5"
             >
               {copied ? (
                 <>
-                  <Check className="w-4 h-4 text-emerald-400" />
-                  <span className="text-emerald-400 font-semibold">Copied to clipboard!</span>
+                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Copied Email</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-4 h-4 text-slate-400" />
-                  <span>Copy Email</span>
+                  <Copy className="w-4 h-4 text-slate-500" />
+                  <span>Copy Address</span>
                 </>
               )}
             </button>
 
-            {/* Resume Button */}
             <a
-              href="/shivam-jadon-cv.pdf"
+              href={profile.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => sound.playSuccess()}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] text-slate-400 hover:text-slate-200 font-mono text-sm border border-white/[0.06] transition-all"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] text-xs font-mono transition-all"
             >
-              <FileText className="w-4 h-4 text-slate-400" />
-              CV (PDF)
+              <Linkedin className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              <span>LinkedIn</span>
             </a>
-          </div>
 
-          {/* Quick Technical Highlights Metrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/[0.08]">
-            {profileData.stats.map((stat, i) => (
-              <div key={i} className="glass-pill p-3 rounded-xl border border-white/[0.06]">
-                <div className="font-mono text-xl sm:text-2xl font-bold text-white bg-gradient-to-r from-emerald-400 to-cyan-300 bg-clip-text text-transparent">
-                  {stat.value}
-                </div>
-                <div className="text-[11px] font-mono text-slate-400 font-medium uppercase tracking-wider mt-0.5">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+            <a
+              href={profile.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/[0.08] text-xs font-mono transition-all"
+            >
+              <FileText className="w-4 h-4 text-slate-500" />
+              <span>Resume (PDF)</span>
+            </a>
           </div>
 
         </div>
 
-        {/* Right Column: Interactive Code & Architecture Inspector */}
+        {/* Right Column: Interactive System Architecture & Live Code Hub */}
         <div className="lg:col-span-5">
-          <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/[0.1] shadow-2xl relative overflow-hidden group">
+          <div className="surface-card rounded-2xl p-5 border border-slate-200 dark:border-white/10 shadow-lg relative overflow-hidden">
             
-            {/* Ambient corner glow */}
-            <div className="absolute -top-16 -right-16 w-40 h-40 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
-            {/* Terminal Window Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] mb-3">
+            {/* Header bar */}
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-white/[0.08] mb-3">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-rose-500/80 border border-rose-600"></span>
-                <span className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600"></span>
-                <span className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600"></span>
-                <span className="font-mono text-xs text-slate-400 ml-2 font-medium">shivam-core-engine.ts</span>
+                <span className="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                <span className="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                <span className="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                <span className="font-mono text-xs text-slate-500 dark:text-slate-400 ml-2 font-medium">production-system.ts</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                LIVE PIPELINE
-              </div>
+              <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
+                ● LIVE STACK
+              </span>
             </div>
 
-            {/* Code Selector Tabs */}
-            <div className="flex items-center gap-1.5 mb-3 bg-black/40 p-1 rounded-lg border border-white/[0.06]">
+            {/* Interactive Scenario Tabs */}
+            <div className="flex items-center gap-1.5 mb-3 bg-slate-100 dark:bg-black/40 p-1 rounded-lg border border-slate-200 dark:border-white/[0.06]">
               <button
-                onClick={() => { sound.playClick(); setActiveTab('rag'); }}
-                className={`flex-1 py-1 px-2.5 rounded text-xs font-mono transition-all ${
+                onClick={() => setActiveTab('rag')}
+                className={`flex-1 py-1.5 px-2 rounded-md text-xs font-mono font-medium transition-all ${
                   activeTab === 'rag' 
-                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 shadow-sm border border-slate-200 dark:border-emerald-500/30 font-bold' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 RAG Pipeline
               </button>
               <button
-                onClick={() => { sound.playClick(); setActiveTab('chatbot'); }}
-                className={`flex-1 py-1 px-2.5 rounded text-xs font-mono transition-all ${
+                onClick={() => setActiveTab('chatbot')}
+                className={`flex-1 py-1.5 px-2 rounded-md text-xs font-mono font-medium transition-all ${
                   activeTab === 'chatbot' 
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-semibold' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 shadow-sm border border-slate-200 dark:border-cyan-500/30 font-bold' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                AI Agent Router
+                AI Agent
               </button>
               <button
-                onClick={() => { sound.playClick(); setActiveTab('mern'); }}
-                className={`flex-1 py-1 px-2.5 rounded text-xs font-mono transition-all ${
+                onClick={() => setActiveTab('mern')}
+                className={`flex-1 py-1.5 px-2 rounded-md text-xs font-mono font-medium transition-all ${
                   activeTab === 'mern' 
-                    ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30 font-semibold' 
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-white dark:bg-violet-500/20 text-violet-600 dark:text-violet-300 shadow-sm border border-slate-200 dark:border-violet-500/30 font-bold' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                MERN Backend
+                MERN API
               </button>
             </div>
 
             {/* Code Box */}
-            <div className="bg-black/60 rounded-xl p-3.5 border border-white/[0.04] overflow-x-auto">
-              <pre className="font-mono-code text-[11.5px] leading-relaxed text-slate-300 whitespace-pre">
+            <div className="bg-slate-950 rounded-xl p-4 border border-slate-800 overflow-x-auto text-slate-100">
+              <pre className="font-mono text-[11.5px] leading-relaxed whitespace-pre">
                 <code>{codeSnippets[activeTab]}</code>
               </pre>
             </div>
 
-            {/* Live Pipeline Telemetry Footer */}
-            <div className="mt-3.5 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-400">
+            {/* Telemetry Footer */}
+            <div className="mt-3.5 pt-3 border-t border-slate-200 dark:border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Vector Index: <strong className="text-slate-200">OpenSearch kNN</strong></span>
+                <Database className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>Vector: <strong className="text-slate-900 dark:text-slate-200 font-semibold">OpenSearch kNN</strong></span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-amber-400" />
-                <span>p99 Latency: <strong className="text-emerald-400">&lt;45ms</strong></span>
+                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                <span>p99 Latency: <strong className="text-emerald-600 dark:text-emerald-400 font-semibold">&lt;45ms</strong></span>
               </div>
             </div>
 
           </div>
         </div>
 
-      </div>
-
-      {/* Subtle Scroll Down Prompt */}
-      <div className="flex justify-center mt-12">
-        <a 
-          href="#architecture" 
-          onClick={() => sound.playClick()}
-          className="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-400 transition-colors group"
-        >
-          <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 group-hover:text-emerald-400">
-            System Architecture
-          </span>
-          <ChevronDown className="w-4 h-4 animate-bounce text-emerald-400/70" />
-        </a>
       </div>
 
     </section>
